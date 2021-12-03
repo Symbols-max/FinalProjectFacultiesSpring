@@ -1,151 +1,84 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="ru">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!doctype html>
 <head>
-    <meta charset="UTF-8">
-    <title>Crystal Fitness</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Обязательные метатеги -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/index.css"/>">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Main</title>
 </head>
 <body>
-<header id="header" class="header">
-    <div class="container">
-        <p class="logo">Crystal Fitness</p>
-        <h1>
-            Начни<br>меняться<br>уже<br>сегодня
-        </h1>
-        <ul class="circles">
-            <li>
-                <a href="#"><img src="../img/instagram.png" alt="instagram" class="instagram">
-                </a>
-            </li>
-            <li>
-                <a href="#"><img src="../img/youtube.png" alt="youtube" class="youtube"></a>
-            </li>
-            <li>
-                <a href="#"><img src="../img/facebook.png" alt="facebook" class="facebook">
-                </a>
-            </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="text-align: left">Университет Киева</a>
+        <form class="d-flex" action="/authorization" method="get" style="text-align: right">
+            <button class="btn btn-outline-primary" type="submit" name="btn" value="Sign in">${sessionScope.get("bundle").getString("index.btn.signIn")}</button>
+            <button class="btn btn-outline-success" type="submit" name="btn" value="Sign Up">${sessionScope.get("bundle").getString("index.btn.signUp")}</button>
+        </form>
+    </div>
+</nav>
+<h1 style="text-align:center">${sessionScope.get("bundle").getString("index.text.faculties")}</h1>
+<div class="container">
+    <div class="dropdown">
+        <button class="dropbtn">${sessionScope.get("bundle").getString("index.btn.sort")}</button>
+        <div class="dropdown-content">
+            <a href="/">${sessionScope.get("bundle").getString("index.btn.sort.sortByName")}</a>
+            <a href="/?sort=byAllPlaces">${sessionScope.get("bundle").getString("index.btn.sort.sortByAllPlaces")}</a>
+            <a href="/?sort=byFundedPlaces">${sessionScope.get("bundle").getString("index.btn.sort.sortByFundedPlaces")}</a>
+        </div>
+    </div>
+    <br><br>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">${sessionScope.get("bundle").getString("index.table.nav.name")}</th>
+            <th scope="col">${sessionScope.get("bundle").getString("index.table.nav.numberPlaces")}</th>
+            <th scope="col">${sessionScope.get("bundle").getString("index.table.nav.numberFundedPlaces")}</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${faculties}" var="faculty">
+        <tr>
+            <td>${faculty.getId()}</td>
+            <td>${faculty.getNameFaculty()}</td>
+            <td>${faculty.getAllPlaces()}</td>
+            <td>${faculty.getFundedPlaces()}</td>
+            <td><a href="/facultyInfo?id=${faculty.getId()}">${sessionScope.get("bundle").getString("index.table.href.moreInfo")}</a></td>
+        </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <c:if test="${allPages ne null}">
+                <c:forEach var="i" begin="1" end="${allPages}">
+                    <li class="page-item"><a class="page-link" href="/?sort=${sessionScope.get("sort")}&page=<c:out value="${i - 1}"/>"><c:out value="${i}"/></a></li>
+                </c:forEach>
+            </c:if>
         </ul>
-        <br><br>
-    </div>
-</header>
+    </nav>
 
-<section id="about" class="about">
-    <div class="container">
-        <p class="text1">
-            Сеть фитнес клубов №1
-        </p>
-        <p class="text2">О НАС:</p>
-        <p class="text3">
-            - американское оборудование<br>
-            - высококвалифицированный<br>
-            тренерский состав<br>
-            - лучшая ценовая политика<br>
-            - место отдыха после тренировки
-        </p>
-        <p class="button"><a href="#contact" class="but">
-            Потренять
-        </a></p>
-        <br>
-    </div>
-</section>
 
-<section id="long" class="long">
-    <div class="container">
-        <div class="price">
-            <p class="theme">Цены</p>
-            <table class="prices">
-                <tr>
-                    <td>Вид абонемента:</td>
-                    <td>Время посещения:</td>
-                    <td class="green">Цена:</td>
-                </tr>
-                <tr>
-                    <td> Дневной</td>
-                    <td>С 8:00(9:00) до 17:00</td>
-                    <td class="green">350 грн<br><pre class="small">(+30 грн допл. после 17:00)</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Безлим</td>
-                    <td>С 8:00(9:00) до 22:00</td>
-                    <td class="green">450 грн<br><pre class="small">(+персональная
-            <br>тренировка с тренером)
-            </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Школьный<br><pre class="small">(Студенческий)</pre>
-                    </td>
-                    <td>С 8:00(9:00) до 22:00</td>
-                    <td class="green">350 грн</td>
-                </tr>
-                <tr>
-                    <td> Выходного дня<br><pre class="small">(суббота и воскресенье)
-            </pre></td>
-                    <td>9:00 до 22:00</td>
-                    <td class="green">199 грн</td>
-                </tr>
-                <tr>
-                    <td>Тр.зал +групповые<br>занятия</td>
-                    <td>С 8:00(9:00) до 22:00</td>
-                    <td class="green">1000 грн</td>
-                </tr>
-            </table>
-            <p class="personal">Персональные тренировки: от 1 - 150 грн, 5 - 750 грн, 10 - 1500 грн</p>
-            <img class="promotion" src="../img/attention.png" alt="Promotion">
-        </div>
-        <hr color="#8FBB4B">
-        <a class="link" href="/team"><pre>Команда</pre></a>
-        <hr color="#8FBB4B">
-        <a class="link" href="/gallery"><pre>Наши клубы</pre></a>
-        <hr color="#8FBB4B">
-        <a class="link" href="/news"><pre>Новости</pre></a>
-        <hr color="#8FBB4B">
-        <div class="contacts">
-            <p class="theme" id="contact">Контакты</p>
-            <p class="contactstext" >Не стесняйтесь!!! Укажите Ваше<br>имя и телефон, и мы свяжемся<br>с Вами для консультации.</p>
-            <div class="forms">
-                <form name="contact" method="post" action="contacts/add">
-                    <input type="text"
-                           class="singleform" name="name" placeholder="Укажите ваше имя">
-                    <input type="tel" class="singleform" name="phone" placeholder="+380(99)999-99-99">
-                    <br>
-                    <input class="button2" type="submit" value="Отправить">
-                </form>
-            </div>
+    <c:if test="${param.success ne null}">
+        <p>${sessionScope.get("bundle").getString("index.message")}</p>
+    </c:if>
 
-            <div class="bottom">
-                <table class="adress">
-                    <tr>
-                        <td>
-                            <p class="adres">ул. Н. Закревского 93 А</p></td>
-                        <td>
-                            <p class="number">тел: +38(098)97-11-113</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="adres">ул. Вышгородская 45 А</p>
-                        </td>
-                        <td>
-                            <p class="number">тел: +38(097)99-41-000</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="adres">ул. Саперно-Слободская 10</p>
-                        </td>
-                        <td>
-                            <p class="number">тел: +38(096)85-55-527</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+</div>
+<footer>
+    <div style="text-align: right;margin-right: 3%">
+        <a href="/changeLanguage?language=ru" style="padding-right: 2%;text-decoration: none">РУС</a>
+        <a href="/changeLanguage?language=en" style="padding-right: 2%;text-decoration: none">ENG</a>
     </div>
-</section>
+</footer>
 </body>
 </html>
