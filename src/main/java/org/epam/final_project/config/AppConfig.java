@@ -29,17 +29,17 @@ public class AppConfig implements WebMvcConfigurer {
         return new BCryptPasswordEncoder(12);
     }
 
-    @Bean
-    public CommandLineRunner demo(final UserService userService,
-                                  final PasswordEncoder encoder) {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... strings) throws Exception {
-                Info info=new Info();
-                User user=new User("prehot2002@gmail.com",encoder.encode("1"),true,Role.ADMIN,info);
-                userService.addUser(user);
-            }
-        };
-    }
+  //  @Bean
+//    public CommandLineRunner demo(final UserService userService,
+//                                  final PasswordEncoder encoder) {
+//        return new CommandLineRunner() {
+//            @Override
+//            public void run(String... strings) throws Exception {
+//                Info info=new Info();
+//                User user=new User("prehot2002@gmail.com",encoder.encode("1"),true,Role.ADMIN,info);
+//                userService.addUser(user);
+//            }
+//        };
+//    }
 
 }

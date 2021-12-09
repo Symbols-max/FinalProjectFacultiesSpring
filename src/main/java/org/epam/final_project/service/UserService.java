@@ -7,7 +7,6 @@ import org.epam.final_project.model.enums.Role;
 import org.epam.final_project.reposetories.InfoRepository;
 import org.epam.final_project.reposetories.SubjectRepository;
 import org.epam.final_project.reposetories.UserRepository;
-import org.epam.final_project.reposetories.FacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired
-    private FacultyRepository facultyRepository;
 
     @Autowired
     private UserRepository userRepository;
